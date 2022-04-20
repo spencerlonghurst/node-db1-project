@@ -13,12 +13,7 @@ router.get('/', (req, res, next) => {
 })
 
 router.get('/:id', midware.checkAccountId, async (req, res, next) => {
-  try {
-    const account = await Accounts.getById(req.params.id)
-    res.json(account)
-  } catch (err) {
-    next(err)
-  }
+  res.json(req.account)
 })
 
 router.post('/', midware.checkAccountPayload, midware.checkAccountNameUnique, (req, res, next) => {

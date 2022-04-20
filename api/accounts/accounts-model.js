@@ -8,12 +8,16 @@ const getAll = () => {
 const getById = id => {
   // select * from accounts where id = 1
   return db('accounts')
-    .where({ id })
+    .where('id', id)
     .first()
 }
 
 const create = account => {
-  // DO YOUR MAGIC
+  return db('accounts')
+    .insert(account)
+    .then(ids => {
+      return getById(ids[0]);
+    })
 }
 
 const updateById = (id, account) => {
