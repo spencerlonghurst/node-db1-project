@@ -18,16 +18,18 @@ router.get('/:id', midware.checkAccountId, async (req, res, next) => {
 
 router.post('/', midware.checkAccountPayload, midware.checkAccountNameUnique, async (req, res, next) => {
   try {
-    const newAccount = await Accounts.create(req.body);
+    const newAccount = await Accounts.create({name: req.body.name.trim(), budget:req.body.budget});
     res.json(newAccount)
   } catch (err) {
     next(err)
   }
 })
 
-router.put('/:id', midware.checkAccountId, midware.checkAccountNameUnique, midware.checkAccountPayload, (req, res, next) => {
+router.put('/:id', midware.checkAccountId, midware.checkAccountNameUnique, async (req, res, next) => {
+  const updated = await Accounts.updateById(req.params.id, req.body)
+  res.json(updated)
   try {
-
+    req.json('update account')
   } catch (err) {
     next(err)
   }
